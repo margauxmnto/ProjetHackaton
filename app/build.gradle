@@ -1,0 +1,32 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    namespace 'com.echosentinel.droneguidance'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.echosentinel.droneguidance"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        // DJI SDK Key - à insérer dans le code ou en ressources
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'com.dji:dji-sdk:5.0.0'  // version example, adapter la dernière officielle
+    implementation 'org.opencv:opencv-android:4.7.0' // OpenCV Android
+}
