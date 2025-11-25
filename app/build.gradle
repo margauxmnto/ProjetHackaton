@@ -1,32 +1,68 @@
+// Fichier: app/build.gradle (Module: app)
+
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
+    id 'kotlin-android' // Garder si vous utilisez Kotlin, sinon 'java'
 }
 
 android {
-    namespace 'com.echosentinel.droneguidance'
-    compileSdk 34
+    namespace 'com.echosentinel'
+    compileSdk 34 // Mettre à jour si nécessaire, 34 est la version actuelle recommandée
 
     defaultConfig {
-        applicationId "com.echosentinel.droneguidance"
-        minSdk 24
+        applicationId "com.echosentinel"
+        minSdk 24 // Minimum requis pour le DJI Mobile SDK v5
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
-        // DJI SDK Key - à insérer dans le code ou en ressources
     }
+
     buildTypes {
         release {
             minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    // --- Configuration Spécifique DJI Mobile SDK V5 ---
+    packagingOptions {
+        // Prévention des erreurs de doublons de fichiers .jui
+        exclude 'META-INF/Rx.kt'
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0"
+
+    // Dépendances de base Android
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'com.dji:dji-sdk:5.0.0'  // version example, adapter la dernière officielle
-    implementation 'org.opencv:opencv-android:4.7.0' // OpenCV Android
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // --- Dépendances DJI Mobile SDK V5 ---
+    // Core SDK
+    implementation 'com.dji:dji-sdk-v5:5.4.1' // Version à vérifier sur la documentation officielle DJI
+
+    // Services Requis (à adapter selon les besoins spécifiques du M4E)
+    // Nous ajoutons le support OSDK (pour les communications de bas niveau) et l'API Flysafe
+    implementation 'com.dji:dji-sdk-services-osdk-core:5.4.1'
+    implementation 'com.dji:dji-sdk-services-flysafe:5.4.1'
+
+    // Ajoutez le support pour MSDK comme service (pour les applications basées sur MSDK)
+    implementation 'com.dji:dji-sdk-services-msdk-core:5.4.1'
+
+    // --- Dépendance pour la Vision (OpenCV) ---
+    // L'intégration complète d'OpenCV est plus complexe (via une librairie locale ou jni)
+    // Mais voici un placeholder pour l'API java de base si vous l'utilisez comme module
+    implementation project(':openCVLibrary341') // Exemple si vous ajoutez OpenCV comme module
 }
