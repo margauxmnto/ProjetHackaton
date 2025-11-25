@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#121212"
+    tools:context=".MainActivity">
+
+    <!-- ZONE 1 : FLUX VIDÉO (75% de l'écran) -->
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"
+        android:background="#000000">
+
+        <!-- Le flux vidéo DJI -->
+        <TextureView
+            android:id="@+id/video_preview_content_surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <!-- La couche de dessin OpenCV (Rectangles verts) -->
+        <!-- Elle doit avoir exactement la même taille que la vidéo -->
+        <com.echosentinel.droneguidance.TrackingOverlayView
+            android:id="@+id/tracking_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+        <!-- Indicateur d'enregistrement (Optionnel, petit point rouge en haut à gauche de la vidéo) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_hud_panel"
+            android:padding="8dp"
+            android:gravity="center_vertical">
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="#FF0000"
+                android:layout_marginEnd="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LIVE FEED"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- ZONE 2 : TABLEAU DE BORD / DONNÉES (25% de l'écran) -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:background="#1E1E1E"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- MODULE 1 : STATUT GLOBAL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DRONE STATUS"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#2C2C2C"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/txt_connection_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/status_disconnected"
+                        android:textColor="#FF5555"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                    
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#444" android:layout_marginVertical="8dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@android:drawable/ic_lock_idle_charging"
+                            app:tint="#4CAF50"/>
+                        
+                        <TextView
+                            android:id="@+id/txt_battery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="--%"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Space android:layout_width="match_parent" android:layout_height="16dp"/>
+
+            <!-- MODULE 2 : TÉLÉMÉTRIE -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TELEMETRY"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#2C2C2C"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <!-- Altitude -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Altitude"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:id="@+id/txt_altitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0 m"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <!-- H Speed -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="H. Speed"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:id="@+id/txt_h_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0 m/s"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <!-- V Speed -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="V. Speed"
+                            android:textColor="#AAAAAA"/>
+                        <TextView
+                            android:id="@+id/txt_v_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0 m/s"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Space android:layout_width="match_parent" android:layout_height="16dp"/>
+
+            <!-- MODULE 3 : RESCUE OPS (Plus gros pour être visible) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RESCUE OPS"
+                android:textColor="#00FF00"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#3D1A1A"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="PERSONS DETECTED"
+                        android:gravity="center"
+                        android:textColor="#FF8888"
+                        android:textSize="10sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_persons_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#664444" android:layout_marginVertical="8dp"/>
+
+                    <TextView
+                        android:id="@+id/txt_zone_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SCANNING..."
+                        android:textColor="#FFCC00"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Boutons de contrôle (Simulation) -->
+            <Space android:layout_width="match_parent" android:layout_height="24dp"/>
+            
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EMERGENCY LAND"
+                android:backgroundTint="#B00020"
+                android:textColor="#FFFFFF"/>
+
+             <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RETURN TO HOME"
+                android:backgroundTint="#555555"
+                android:textColor="#FFFFFF"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
