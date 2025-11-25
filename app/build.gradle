@@ -2,12 +2,13 @@
 
 plugins {
     id 'com.android.application'
-    id 'kotlin-android' // Garder si vous utilisez Kotlin, sinon 'java'
+    id 'kotlin-android'
 }
 
 android {
     namespace 'com.echosentinel'
-    compileSdk 34 // Mettre à jour si nécessaire, 34 est la version actuelle recommandée
+    // Compiler avec une version récente (ex: 34)
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.echosentinel"
@@ -33,7 +34,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    // --- Configuration Spécifique DJI Mobile SDK V5 ---
+    // Configuration Spécifique DJI Mobile SDK V5
     packagingOptions {
         // Prévention des erreurs de doublons de fichiers .jui
         exclude 'META-INF/Rx.kt'
@@ -42,27 +43,19 @@ android {
 }
 
 dependencies {
-
     // Dépendances de base Android
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // --- Dépendances DJI Mobile SDK V5 ---
-    // Core SDK
-    implementation 'com.dji:dji-openCVLibrairy-v5:5.4.1' // Version à vérifier sur la documentation officielle DJI
+    // --- Dépendances DJI Mobile SDK V5 (Vérifiez toujours la version sur le site DJI) ---
+    implementation 'com.dji:dji-sdk-v5:5.4.1'
+    // Services Requis pour le Matrice 4E et l'OSDK
+    implementation 'com.dji:dji-sdk-services-osdk-core:5.4.1'
+    implementation 'com.dji:dji-sdk-services-flysafe:5.4.1'
+    implementation 'com.dji:dji-sdk-services-msdk-core:5.4.1'
 
-    // Services Requis (à adapter selon les besoins spécifiques du M4E)
-    // Nous ajoutons le support OSDK (pour les communications de bas niveau) et l'API Flysafe
-    implementation 'com.dji:dji-openCVLibrairy-services-osdk-core:5.4.1'
-    implementation 'com.dji:dji-openCVLibrairy-services-flysafe:5.4.1'
-
-    // Ajoutez le support pour MSDK comme service (pour les applications basées sur MSDK)
-    implementation 'com.dji:dji-openCVLibrairy-services-msdk-core:5.4.1'
-
-    // --- Dépendance pour la Vision (OpenCV) ---
-    // L'intégration complète d'OpenCV est plus complexe (via une librairie locale ou jni)
-    // Mais voici un placeholder pour l'API java de base si vous l'utilisez comme module
-    implementation project(':openCVLibrary') // Exemple si vous ajoutez OpenCV comme module
+    // --- Dépendance OpenCV ---
+    implementation project(':openCVLibrary')
 }

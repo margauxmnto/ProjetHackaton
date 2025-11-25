@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Les filtres standards pour les contrôleurs DJI -->
     <usb-accessory model="DJI Smart Controller" manufacturer="DJI" />
-    <!-- Autres modèles de contrôleurs si besoin -->
+    <usb-accessory model="DJI RC Pro" manufacturer="DJI" />
+    <usb-accessory model="DJI RC Plus" manufacturer="DJI" />
+    <!-- Vous pouvez ajouter d'autres modèles de contrôleurs si nécessaire -->
 </resources>
