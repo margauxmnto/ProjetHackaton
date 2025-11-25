@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">DroneGuidanceApp</string>
+    <string name="sdk_status_unregistered">SDK non enregistré</string>
+    <string name="sdk_status_success">SDK enregistré avec succès</string>
+    <string name="sdk_status_failed">Échec de l\'enregistrement du SDK : %s</string>
+    <string name="connection_status_disconnected">Drone Déconnecté</string>
+    <string name="connection_status_connecting">Connexion...</string>
+    <string name="connection_status_connected">Drone Connecté</string>
+    <string name="register_sdk_button">Enregistrer le SDK</string>
+    <string name="telemetry_placeholder">Télémétrie : Non disponible</string>
+    <string name="victim_status_placeholder">Victime : En attente de détection</string>
+</resources>
