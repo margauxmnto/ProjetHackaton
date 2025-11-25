@@ -1,0 +1,25 @@
+// Fichier: settings.gradle
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Inclure le module de l'application
+rootProject.name = "ProjetHackaton"
+include ':app'
+
+// --- Intégration du module OpenCV ---
+// Assurez-vous que le chemin ci-dessous correspond à l'emplacement réel de votre dossier OpenCV
+include ':openCVLibrary'
+project(':openCVLibrary').projectDir = new File('openCVLibrary') // Assurez-vous d'adapter le chemin
